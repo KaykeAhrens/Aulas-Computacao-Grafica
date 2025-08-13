@@ -17,7 +17,7 @@ Neste repositório, você encontrará:
 
 ## 🧠 Tópicos Abordados
 
-- Configuração do ambiente OpenGL com GLFW no Visual Studio
+- Configuração do ambiente OpenGL com GLFW e GLEW no Visual Studio
 - Criação de janelas e contexto gráfico
 - Buffers, VBOs, VAOs e EBOs
 - Shaders GLSL (vertex, fragment shaders)
