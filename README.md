@@ -1,4 +1,4 @@
-# 🖥️ Aulas de Computação Gráfica com OpenGL, GLFW e C++
+# 🖥️ Aulas de Computação Gráfica com OpenGL, GLFW, GLEW e C++
 
 Bem-vindo(a) ao repositório das minhas aulas de **Computação Gráfica**, desenvolvidas em **C++** utilizando **OpenGL** e **GLFW** no **Visual Studio**. Aqui você encontrará exemplos práticos, exercícios e pequenos projetos para aprender os fundamentos da computação gráfica moderna.
 
@@ -8,7 +8,7 @@ Bem-vindo(a) ao repositório das minhas aulas de **Computação Gráfica**, dese
 
 Neste repositório, você encontrará:
 
-- Configurações básicas e avançadas de projetos em C++ com OpenGL e GLFW
+- Configurações básicas e avançadas de projetos em C++ com OpenGL, GLFW e GLEW
 - Implementações passo a passo de conceitos de computação gráfica
 - Exemplos de renderização 2D e 3D, manipulação de shaders, buffers e texturas
 - Exercícios para fixação dos conteúdos
