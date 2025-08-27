@@ -46,4 +46,4 @@ Para compilar e executar os exemplos, você precisa ter instalado:
 1. Clone este repositório:
 
    ```bash
-   git clone https://github.com/seu-usuario/seu-repo-computacao-grafica.git
+   git clone https://github.com/KaykeAhrens/Aulas-Computacao-Grafica.git
