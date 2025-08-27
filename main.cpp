@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <GL\glew.h> // GLEW deve estar antes do glfw3.h para evitar conflitos de tipos e defini��es
+#include <GL\glew.h> // GLEW deve estar antes do glfw3.h para evitar conflitos de tipos e definições
 #include <GLFW\glfw3.h>
+#include <time.h>
 
 using namespace std;
 
@@ -23,7 +24,8 @@ void main() {									\n\
 static const char *fragmentShader = "			\n\
 #version 330									\n\
 												\n\
-uniform in vec3 triColor;						\n\
+uniform vec3 triColor;							\n\
+out vec4 color;									\n\
 												\n\
 void main() {									\n\
 	color = vec4(triColor, 1.0);				\n\
@@ -83,7 +85,7 @@ int main() {
 	// Iniciar o GLFW
 	glfwInit();
 	if (!glfwInit()) {
-		printf("GLFW n�o foi iniciado\n");
+		printf("GLFW não foi iniciado\n");
 		glfwTerminate();
 		return 1;
 	}
@@ -104,7 +106,7 @@ int main() {
 	glfwGetFramebufferSize(window, &bufferWidth, &bufferHeight);
 	glfwMakeContextCurrent(window);
 
-	glewExperimental = GL_TRUE; // Permitir o uso de extens�es modernas do OpenGL
+	glewExperimental = GL_TRUE; // Permitir o uso de extensões modernas do OpenGL
 	if (glewInit() != GLEW_OK) {
 		printf("Erro ao iniciar o GLEW\n");
 		glfwDestroyWindow(window);
@@ -115,12 +117,32 @@ int main() {
 	// Configurar a viewport
 	glViewport(0, 0, bufferWidth, bufferHeight);
 
+	criaTriangulo();
+	adicionarPrograma();
+
+	// Altera cor do triângulo
+	srand(time(NULL));
+
+	GLint uniformColor = glGetUniformLocation(shaderProgram, "triColor");
+	float color1 = rand() % 100 / 100.0f;
+	float color2 = rand() % 100 / 100.0f;
+	float color3 = rand() % 100 / 100.0f;
+
 	// Loop principal
 	while (!glfwWindowShouldClose(window)) {
 		// Limpar a tela
-		glClearColor(0.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
+
+		glUniform3f(uniformColor, color1, color2, color3);
+
+		// Desenhando o triangulo
+		glUseProgram(shaderProgram);
+		glBindVertexArray(VAO);
+			glDrawArrays(GL_TRIANGLES, 0, 3); // Triângulo começando na posição 0, Número de pontos 3
+		glBindVertexArray(0);
+
 		// Trocar os buffers
 		glfwSwapBuffers(window);
 	}
