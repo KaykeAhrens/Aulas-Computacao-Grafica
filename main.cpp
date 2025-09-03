@@ -3,21 +3,32 @@
 #include <GL\glew.h> // GLEW deve estar antes do glfw3.h para evitar conflitos de tipos e definições
 #include <GLFW\glfw3.h>
 #include <time.h>
+#include <glm\glm.hpp>
+#include <glm\gtc\matrix_transform.hpp>
+#include <glm\gtc\type_ptr.hpp>
 
 using namespace std;
 
 const GLint WIDTH = 1024, HEIGHT = 768; // Definindo a largura e altura da janela
 GLuint VAO, VBO, shaderProgram;
 
+float toRadians = 3.1415f / 180.0f;
+
+bool direction = false, directionSize = false;
+float triOffset = 0.0f, triOffsetMax = 0.7f, triOffsetMin = -0.7f, triIncrement = 0.01f;
+float triOffsetSize = 0.2f, triOffsetSizeMax = 1.2f, triOffsetSizeMin = 0.2, triOffsetSizeIncrement = 0.01f;
+float triCurrentAngle = 0.0f, triIncrementAngle = 1.0f;
+
 // Plota o X,Y
-static const char *vertexShader = "				\n\
-#version 330									\n\
-												\n\
-layout(location=0) in vec2 pos;					\n\
-												\n\
-void main() {									\n\
-	gl_Position = vec4(pos.x, pos.y, 0.0, 1.0); \n\
-}												\n\
+static const char *vertexShader = "									\n\
+#version 330														\n\
+																	\n\
+layout(location=0) in vec2 pos;										\n\
+uniform mat4 model;													\n\
+																	\n\
+void main() {														\n\
+	gl_Position = model * vec4(pos.x, pos.y, 0.0, 1.0);				\n\
+}																	\n\
 ";
 
 // Troca a Cor
@@ -134,8 +145,45 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
-
 		glUniform3f(uniformColor, color1, color2, color3);
+
+		// Movimenta o triângulo
+		if (!direction) {
+			triOffset += triIncrement;
+		}
+		else {
+			triOffset -= triIncrement;
+		}
+
+		if (triOffset > triOffsetMax || triOffset < triOffsetMin) {
+			direction = !direction;
+		}
+
+		triCurrentAngle += triIncrementAngle;
+
+		if (triCurrentAngle >= 360) {
+			triCurrentAngle = 0;
+		}
+
+		if (!directionSize) {
+			triOffsetSize += triOffsetSizeIncrement;
+		}
+		else {
+			triOffsetSize -= triOffsetSizeIncrement;
+		}
+
+		if (triOffsetSize > triOffsetSizeMax || triOffsetSize < triOffsetSizeMin) {
+			directionSize = !directionSize;
+		}
+
+		GLint uniformModel = glGetUniformLocation(shaderProgram, "model");
+		glm::mat4 model(1.0f); // matriz 4x4 completa com 1.0 em todas posições
+		
+		model = glm::translate(model, glm::vec3(triOffset, 0.0f, 0.0f));
+		model = glm::scale(model, glm::vec3(triOffsetSize, triOffsetSize, 0.0f));
+		model = glm::rotate(model, triCurrentAngle * toRadians, glm::vec3(0.6f, 0.1f, 0.5f));
+		
+		glUniformMatrix4fv(uniformModel, 1, GL_FALSE, glm::value_ptr(model));
 
 		// Desenhando o triangulo
 		glUseProgram(shaderProgram);
