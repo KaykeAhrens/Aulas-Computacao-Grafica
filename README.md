@@ -19,7 +19,7 @@ Neste repositório, você encontrará:
 
 - Configuração do ambiente OpenGL com GLFW e GLEW no Visual Studio
 - Criação de janelas e contexto gráfico
-- Buffers, VBOs, VAOs e EBOs
+- Buffers, VBOs, VAOs
 - Shaders GLSL (vertex, fragment shaders)
 - Transformações geométricas (modelagem, visualização, projeção)
 - Renderização de primitivas básicas
@@ -47,3 +47,4 @@ Para compilar e executar os exemplos, você precisa ter instalado:
 
    ```bash
    git clone https://github.com/KaykeAhrens/Aulas-Computacao-Grafica.git
+   ```
